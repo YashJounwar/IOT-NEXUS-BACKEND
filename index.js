@@ -43,7 +43,7 @@ app.use(waterConsumptionRouter);
 app.use(dashboard);
 
 app.get('/', (req,res) => {
-    // res.send("Hello world");
+     res.send("Hello world");
 })
 
 const PORT = 3001;
