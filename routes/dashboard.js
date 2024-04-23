@@ -21,13 +21,9 @@ router.get('/dashboard', (req, res) => {
 })
 
 router.post('/dashboard/tankSpecification', async (req, res) => {
-    // console.log("dashboard is running");
 
     let { height, diameter, volume, location, tankName, deviceId } = req.query
-    height = parseInt(height); // inch
-    // const diameter = 1105; // inch
-    // const volume = 1000;
-    // const deviceId = req.params.deviceId;
+    height = parseInt(height); 
 
     try {
         auth.onAuthStateChanged(user => {
@@ -61,11 +57,10 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                                         deviceStatus: deviceStatus,
                                     })
                                         .then(() => {
-                                            res.send("Dashboard data is saved")
                                             //send data to frontend
                                             get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
-                                                .then((snapshot) => {
-                                                    const data = snapshot.val();
+                                                .then(async (snapshot) => {
+                                                    const data = await snapshot.val();
                                                     userDeviceInfo = data;
                                                 })
                                                 .catch((err) => {
@@ -80,6 +75,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                         })
 
                 }, 5000);
+                res.send("Dashboard data is saved")
             } else {
                 // User is signed out
                 console.log("No user signed in");
@@ -97,7 +93,7 @@ router.get('/dashboard/tankLevels', (req, res) => {
         io.emit('tankDataFromDashboard', userDeviceInfo);
         // console.log("dashboard/tankLevels: ", userDeviceInfo)
     }, 5000)
-    res.status(200).send("ok",userDeviceinfo);
+    res.status(200).send("ok",userDeviceInfo);
 })
 
 
