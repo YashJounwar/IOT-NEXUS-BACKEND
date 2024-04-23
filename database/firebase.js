@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { config } from 'dotenv';
 config();
 const firebaseConfig = {
-  apiKey: "AIzaSyBbNE2JegNzLfgIjJVr6562V-RpJbvKMV4",
+  apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
   projectId: process.env.PROJECT_ID,
   databaseURL :process.env.DATABASE_URL,
