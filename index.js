@@ -46,9 +46,9 @@ app.get('/', (req,res) => {
      res.send("Hello world");
 })
 
-// const PORT = 3001;
-// server.listen(PORT, (req,res)=>{
-//     console.log(`server is listening on port ${PORT}`)
-// })
+const PORT = 3001;
+server.listen(PORT, (req,res)=>{
+    console.log(`server is listening on port ${PORT}`)
+})
 
 export default server;

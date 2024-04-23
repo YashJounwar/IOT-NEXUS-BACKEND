@@ -31,7 +31,7 @@ router.post('/signup', async (req, res) => {
               username: username,
               email: email,
               gender: gender,
-              mobile: phoneNumber,
+              phoneNumber: phoneNumber,
               Dashboard: {
                 devicesInfo:"",      
               },
@@ -40,7 +40,17 @@ router.post('/signup', async (req, res) => {
                 // send response to the frontend when the user is successfully signed in 
                 auth.onAuthStateChanged((user)=>{
                   if(user.emailVerified){
-                    return res.send({userName:user.displayName, email:user.email, phoneNumber:user.phoneNumber, authToken:user.getIdToken(), userUid:user.uid,signup:"true"})
+                    return res.send({
+                      uid: user.uid,
+                      username: username,
+                      email: email,
+                      gender: gender,
+                      phoneNumber: phoneNumber,
+                      signup:"true",
+                      authToken: user.getIdTokenResult(),
+                      metaData:user.metadata,
+                      refreshToken:user.refreshToken
+                    })
                   }
                 })
                 console.log(`${username} is signed up successfully`);
