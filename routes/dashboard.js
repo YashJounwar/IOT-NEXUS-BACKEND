@@ -75,7 +75,10 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                         })
 
                 }, 5000);
-                res.send("Dashboard data is saved")
+                setTimeout(() => {
+                    
+                    res.send("Dashboard data is saved")
+                }, 6000);
             } else {
                 // User is signed out
                 console.log("No user signed in");
