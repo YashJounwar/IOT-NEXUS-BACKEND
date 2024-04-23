@@ -16,14 +16,14 @@ function getCurrentWaterLevel(height, diameter, sensorValue) {
     return letersWater;
 }
 
-router.get('/dashboard',(req,res)=>{
+router.get('/dashboard', (req, res) => {
     res.status(400).send("dashboard is rendered");
 })
 
 router.post('/dashboard/tankSpecification', async (req, res) => {
     // console.log("dashboard is running");
 
-    let {height,diameter,volume,location,tankName,deviceId} = req.query
+    let { height, diameter, volume, location, tankName, deviceId } = req.query
     height = parseInt(height); // inch
     // const diameter = 1105; // inch
     // const volume = 1000;
@@ -61,6 +61,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                                         deviceStatus: deviceStatus,
                                     })
                                         .then(() => {
+                                            res.send("Dashboard data is saved")
                                             //send data to frontend
                                             get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
                                                 .then((snapshot) => {
@@ -79,7 +80,6 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                         })
 
                 }, 5000);
-                res.send("Dashboard data is saved")
             } else {
                 // User is signed out
                 console.log("No user signed in");
@@ -92,11 +92,11 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
 });
 
 
-router.get('/dashboard/tankLevels',(req,res)=>{
-    setInterval(()=>{
+router.get('/dashboard/tankLevels', (req, res) => {
+    setInterval(() => {
         io.emit('tankDataFromDashboard', userDeviceInfo);
         // console.log("dashboard/tankLevels: ", userDeviceInfo)
-    },5000)
+    }, 5000)
     res.status(200).send("ok");
 })
 
