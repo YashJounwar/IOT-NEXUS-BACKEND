@@ -16,7 +16,7 @@ export const io = new Server(server,{
 import signupRouter from './routes/Signup.js'
 // import tankDataRouter from './routes/TankData.js'
 import loginRouter from './routes/Login.js'
-// import ForgotPass from './routes/ForgotPass.js'
+import ForgotPass from './routes/ForgotPass.js'
 import waterConsumptionRouter from './routes/WaterConsumption.js'
 import dashboard from './routes/dashboard.js'
 import session from 'express-session';
@@ -40,7 +40,7 @@ app.use(cors());
 app.use(signupRouter);
 // app.use(tankDataRouter);
 app.use(loginRouter);
-// app.use(ForgotPass);
+app.use(ForgotPass);
 app.use(waterConsumptionRouter);
 app.use(dashboard);
 
@@ -48,9 +48,9 @@ app.get('/', (req,res) => {
      res.send("Hello world");
 })
 
-const PORT = 3001;
-server.listen(PORT, (req,res)=>{
-    console.log(`server is listening on port ${PORT}`)
-})
+// const PORT = 3001;
+// server.listen(PORT, (req,res)=>{
+//     console.log(`server is listening on port ${PORT}`)
+// })
 
 export default server;
