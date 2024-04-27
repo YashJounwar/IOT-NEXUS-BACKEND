@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/login', async (req, res) => {
     console.log("login is running");
-    const { email, password } = req.body;
+    const { email, password } = req.query;
     try {
               signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
