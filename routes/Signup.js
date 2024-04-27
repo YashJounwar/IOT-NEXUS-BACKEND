@@ -10,7 +10,7 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup', async (req, res) => {
   console.log("signup is running");
-  const { username, email, password, gender, phoneNumber } = req.query;
+  const { username, email, password, gender, phoneNumber } = req.body;
 
   try {
     const auth = getAuth(); // Get a new instance of Auth

@@ -22,7 +22,7 @@ router.get('/dashboard', (req, res) => {
 
 router.post('/dashboard/tankSpecification', async (req, res) => {
 
-    let { height, diameter, volume, location, tankName, deviceId } = req.query
+    let { height, diameter, volume, location, tankName, deviceId } = req.body
     height = parseInt(height); 
 
     try {
