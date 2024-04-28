@@ -17,7 +17,6 @@ import signupRouter from './routes/Signup.js'
 // import tankDataRouter from './routes/TankData.js'
 import loginRouter from './routes/Login.js'
 import ForgotPass from './routes/ForgotPass.js'
-import waterConsumptionRouter from './routes/WaterConsumption.js'
 import dashboard from './routes/dashboard.js'
 import session from 'express-session';
 
@@ -41,7 +40,6 @@ app.use(signupRouter);
 // app.use(tankDataRouter);
 app.use(loginRouter);
 app.use(ForgotPass);
-app.use(waterConsumptionRouter);
 app.use(dashboard);
 
 app.get('/', (req,res) => {

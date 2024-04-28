@@ -97,7 +97,7 @@ router.get('/dashboard/tankLevels', (req, res) => {
         // console.log("dashboard/tankLevels: ", userDeviceInfo)
     }, 5000)
     res.status(200).send("ok",userDeviceInfo);
-})
+});
 
 
 
