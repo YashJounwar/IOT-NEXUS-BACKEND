@@ -3,10 +3,6 @@ import { auth, refe, db } from "../database/firebase.js";
 import { get, set, update } from "firebase/database";
 import { io } from '../index.js';
 import { mmToInches, volumeOfWater, letersOfWater } from '../utilityFunctions/conversionFns.js'
-
-io.on('connection', (socket)=>{
-    console.log("server is connected to client")
-})
 const router = Router();
 let userDeviceInfo = [];
 const allDeviceIDRef = refe(db, '/AllDevicesId');
@@ -104,7 +100,7 @@ setInterval(() => {
         });
     })
     console.log("dashboard/tankLevels: ", userDeviceInfo);
-}, 2000); // Emit data every 10 seconds (adjust interval as needed)
+}, 3000); // Emit data every 10 seconds (adjust interval as needed)
 router.get('/dashboard/tankLevels', (req, res) => {
 
     res.send({data: userDeviceInfo,message : "Data updated and sent to clients"});
