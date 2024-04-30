@@ -92,7 +92,10 @@ setInterval(() => {
                 userDeviceInfo.push(data);
             });
             // Emit the updated userDeviceInfo array to the client
-            io.emit('tankDataFromDashboard', userDeviceInfo);
+            io.on("connection",()=>{
+
+                io.emit('tankDataFromDashboard', userDeviceInfo);
+            })
             // console.log("dashboard/tankLevels: ", userDeviceInfo);
         })
         .catch((err) => {
