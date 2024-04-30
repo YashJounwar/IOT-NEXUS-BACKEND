@@ -3,6 +3,9 @@ import { auth, refe, db } from "../database/firebase.js";
 import { get, set, update } from "firebase/database";
 import { io } from '../index.js';
 import { mmToInches, volumeOfWater, letersOfWater } from '../utilityFunctions/conversionFns.js'
+io.on('connection',(socket)=>{
+    console.log("client connected with id", socket.id);
+})
 const router = Router();
 let userDeviceInfo = [];
 const allDeviceIDRef = refe(db, '/AllDevicesId');
