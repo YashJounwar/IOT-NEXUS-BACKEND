@@ -24,7 +24,7 @@ router.post('/login', async (req, res) => {
                 })
                 .catch((error) => {
                   const errorMessage = error.message;
-                  console.log("password is incorrect , try correct password");
+                  // console.log("password is incorrect , try correct password");
                   console.log("not signed in ! " + errorMessage);
                   // send when any error in login
                   res.status(401).json({ error: errorMessage,login:"false" });
