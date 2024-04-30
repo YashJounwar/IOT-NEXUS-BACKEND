@@ -22,7 +22,7 @@ router.get('/dashboard', (req, res) => {
 
 router.post('/dashboard/tankSpecification', async (req, res) => {
 
-    let { height, diameter, volume, location, tankName, deviceId } = req.body
+    let { height, diameter, volume, location, tankName, deviceId } = req.query
     height = parseInt(height); // inch
 
     try {
@@ -59,14 +59,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                                     })
                                         .then(() => {
                                             //send data to frontend
-                                            get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
-                                                .then((snapshot) => {
-                                                    const data = snapshot.val();
-                                                    userDeviceInfo.push(data);
-                                                })
-                                                .catch((err) => {
-                                                    console.log("error", err.message);
-                                                })
+                                            console.log("Data is saved")
                                         })
                                         .catch((error) => {
                                             console.log("Error storing dashboard data:", error.message);
@@ -91,13 +84,25 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
 router.get('/dashboard/tankLevels', (req, res) => {
 
     setInterval(() => {
+        auth.onAuthStateChanged((user) => {
+            const userId = user.uid;
+            get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
+                .then((snapshot) => {
+                    snapshot.forEach((childsnapshot) => {
+                        const data = childsnapshot.val();
+                        userDeviceInfo.push(data);
+                    })
+                })
+                .catch((err) => {
+                    console.log("error", err.message);
+                })
+        })
         io.emit('tankDataFromDashboard', userDeviceInfo);
-        // console.log("dashboard/tankLevels: ", userDeviceInfo);
+        console.log("dashboard/tankLevels: ", userDeviceInfo);
     }, 5000); // Emit data every 10 seconds (adjust interval as needed)
 
-    res.status(200).send("data will come in every 5 seconds",userDeviceInfo);
+    res.send("data will come in every 5 seconds", userDeviceInfo);
 });
-
 
 
 
