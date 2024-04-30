@@ -81,28 +81,28 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
     }
 });
 
+setInterval(() => {
+    auth.onAuthStateChanged((user) => {
+        const userId = user.uid;
+        get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
+        .then((snapshot) => {
+            userDeviceInfo = []; // Clear the array before updating
+            snapshot.forEach((childsnapshot) => {
+                const data = childsnapshot.val();
+                userDeviceInfo.push(data);
+            });
+            // Emit the updated userDeviceInfo array to the client
+            io.emit('tankDataFromDashboard', userDeviceInfo);
+            // console.log("dashboard/tankLevels: ", userDeviceInfo);
+        })
+        .catch((err) => {
+            console.log("Error fetching tank data:", err.message);
+        });
+    })
+    console.log("dashboard/tankLevels: ", userDeviceInfo);
+}, 5000); // Emit data every 10 seconds (adjust interval as needed)
 router.get('/dashboard/tankLevels', (req, res) => {
 
-    setInterval(() => {
-        auth.onAuthStateChanged((user) => {
-            const userId = user.uid;
-            get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
-            .then((snapshot) => {
-                userDeviceInfo = []; // Clear the array before updating
-                snapshot.forEach((childsnapshot) => {
-                    const data = childsnapshot.val();
-                    userDeviceInfo.push(data);
-                });
-                // Emit the updated userDeviceInfo array to the client
-                io.emit('tankDataFromDashboard', userDeviceInfo);
-                // console.log("dashboard/tankLevels: ", userDeviceInfo);
-            })
-            .catch((err) => {
-                console.log("Error fetching tank data:", err.message);
-            });
-        })
-        console.log("dashboard/tankLevels: ", userDeviceInfo);
-    }, 5000); // Emit data every 10 seconds (adjust interval as needed)
     res.send({data: userDeviceInfo,message : "Data updated and sent to clients"});
 });
 
