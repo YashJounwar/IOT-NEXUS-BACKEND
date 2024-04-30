@@ -95,7 +95,7 @@ router.get('/dashboard/tankLevels', (req, res) => {
         // console.log("dashboard/tankLevels: ", userDeviceInfo);
     }, 5000); // Emit data every 10 seconds (adjust interval as needed)
 
-    res.status(200).send("data will come in every 5 seconds");
+    res.status(200).send("data will come in every 5 seconds",userDeviceInfo);
 });
 
 
