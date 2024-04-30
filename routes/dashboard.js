@@ -90,9 +90,9 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
 
 router.get('/dashboard/tankLevels', (req, res) => {
 
-    intervalId = setInterval(() => {
+    setInterval(() => {
         io.emit('tankDataFromDashboard', userDeviceInfo);
-        console.log("dashboard/tankLevels: ", userDeviceInfo);
+        // console.log("dashboard/tankLevels: ", userDeviceInfo);
     }, 5000); // Emit data every 10 seconds (adjust interval as needed)
 
     res.status(200).send("data will come in every 5 seconds");
