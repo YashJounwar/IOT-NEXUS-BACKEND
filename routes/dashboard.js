@@ -4,7 +4,7 @@ import { get, set, update } from "firebase/database";
 import { io } from '../index.js';
 import { mmToInches, volumeOfWater, letersOfWater } from '../utilityFunctions/conversionFns.js'
 const router = Router();
-let userDeviceInfo = {};
+let userDeviceInfo = [];
 const allDeviceIDRef = refe(db, '/AllDevicesId');
 function getCurrentWaterLevel(height, diameter, sensorValue) {
 
@@ -62,7 +62,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                                             get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
                                                 .then((snapshot) => {
                                                     const data = snapshot.val();
-                                                    userDeviceInfo = data;
+                                                    userDeviceInfo.push(data);
                                                 })
                                                 .catch((err) => {
                                                     console.log("error", err.message);
@@ -98,14 +98,6 @@ router.get('/dashboard/tankLevels', (req, res) => {
     res.status(200).send("data will come in every 5 seconds");
 });
 
-
-router.get('/dashboard/tankLevels', (req, res) => {
-    setInterval(() => {
-        io.emit('tankDataFromDashboard', userDeviceInfo);
-        // console.log("dashboard/tankLevels: ", userDeviceInfo)
-    }, 5000)
-    res.status(200).send("ok",userDeviceInfo);
-});
 
 
 
