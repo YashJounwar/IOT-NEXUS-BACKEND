@@ -10,7 +10,7 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup', async (req, res) => {
   console.log("signup is running");
-  const { name, email, password, phoneNumber } = req.body;
+  const { name, email, password, phoneNumber } = req.query;
 
   try {
 
