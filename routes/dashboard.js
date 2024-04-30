@@ -3,6 +3,10 @@ import { auth, refe, db } from "../database/firebase.js";
 import { get, set, update } from "firebase/database";
 import { io } from '../index.js';
 import { mmToInches, volumeOfWater, letersOfWater } from '../utilityFunctions/conversionFns.js'
+
+io.on('connection', (socket)=>{
+    console.log("server is connected to client")
+})
 const router = Router();
 let userDeviceInfo = [];
 const allDeviceIDRef = refe(db, '/AllDevicesId');
@@ -92,10 +96,7 @@ setInterval(() => {
                 userDeviceInfo.push(data);
             });
             // Emit the updated userDeviceInfo array to the client
-            io.on("connection",()=>{
-
-                io.emit('tankDataFromDashboard', userDeviceInfo);
-            })
+            io.emit('tankDataFromDashboard', userDeviceInfo);
             // console.log("dashboard/tankLevels: ", userDeviceInfo);
         })
         .catch((err) => {
