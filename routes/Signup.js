@@ -10,10 +10,9 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup', async (req, res) => {
   console.log("signup is running");
-  const { username, email, password, gender, phoneNumber } = req.body;
+  const { name, email, password, phoneNumber } = req.body;
 
   try {
-    const auth = getAuth(); // Get a new instance of Auth
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -28,7 +27,7 @@ router.post('/signup', async (req, res) => {
             // if the email is verified then add the record in the database
             set(refe(db, `Hydrosense/Users/${user.uid}`), {
               uid: user.uid,
-              username: username,
+              username: name,
               email: email,
               gender: gender,
               phoneNumber: phoneNumber,
@@ -42,7 +41,7 @@ router.post('/signup', async (req, res) => {
                   if(user.emailVerified){
                     return res.send({
                       uid: user.uid,
-                      username: username,
+                      username: name,
                       email: email,
                       gender: gender,
                       phoneNumber: phoneNumber,
@@ -53,7 +52,7 @@ router.post('/signup', async (req, res) => {
                     })
                   }
                 })
-                console.log(`${username} is signed up successfully`);
+                console.log(`${name} is signed up successfully`);
               })
               .catch((error) => {
                 // if failed then send this response with error message to the frontend 

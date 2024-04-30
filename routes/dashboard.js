@@ -23,7 +23,7 @@ router.get('/dashboard', (req, res) => {
 router.post('/dashboard/tankSpecification', async (req, res) => {
 
     let { height, diameter, volume, location, tankName, deviceId } = req.body
-    height = parseInt(height); 
+    height = parseInt(height); // inch
 
     try {
         auth.onAuthStateChanged(user => {
@@ -53,14 +53,15 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                                             },
                                             waterLevel: currentWaterLevel,
                                             location: location,
+                                            waterConsumption: "",
                                         },
                                         deviceStatus: deviceStatus,
                                     })
                                         .then(() => {
                                             //send data to frontend
                                             get(refe(db, `Hydrosense/Users/${userId}/Dashboard/devicesInfo`))
-                                                .then(async (snapshot) => {
-                                                    const data = await snapshot.val();
+                                                .then((snapshot) => {
+                                                    const data = snapshot.val();
                                                     userDeviceInfo = data;
                                                 })
                                                 .catch((err) => {
@@ -75,10 +76,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
                         })
 
                 }, 5000);
-                setTimeout(() => {
-                    
-                    res.send("Dashboard data is saved")
-                }, 6000);
+                res.send("Dashboard data is saved")
             } else {
                 // User is signed out
                 console.log("No user signed in");
@@ -88,6 +86,16 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
     } catch (error) {
         res.status(500).send({ error: error.message });
     }
+});
+
+router.get('/dashboard/tankLevels', (req, res) => {
+
+    intervalId = setInterval(() => {
+        io.emit('tankDataFromDashboard', userDeviceInfo);
+        console.log("dashboard/tankLevels: ", userDeviceInfo);
+    }, 5000); // Emit data every 10 seconds (adjust interval as needed)
+
+    res.status(200).send("data will come in every 5 seconds");
 });
 
 
