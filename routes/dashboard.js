@@ -100,7 +100,7 @@ setInterval(() => {
         });
     })
     console.log("dashboard/tankLevels: ", userDeviceInfo);
-}, 5000); // Emit data every 10 seconds (adjust interval as needed)
+}, 2000); // Emit data every 10 seconds (adjust interval as needed)
 router.get('/dashboard/tankLevels', (req, res) => {
 
     res.send({data: userDeviceInfo,message : "Data updated and sent to clients"});
