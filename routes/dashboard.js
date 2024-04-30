@@ -81,6 +81,7 @@ router.post('/dashboard/tankSpecification', async (req, res) => {
     }
 });
 
+router.get('/dashboard/tankLevels', (req, res) => {
 setInterval(() => {
     auth.onAuthStateChanged((user) => {
         const userId = user.uid;
@@ -101,7 +102,6 @@ setInterval(() => {
     })
     console.log("dashboard/tankLevels: ", userDeviceInfo);
 }, 5000); // Emit data every 10 seconds (adjust interval as needed)
-router.get('/dashboard/tankLevels', (req, res) => {
 
     res.send({data: userDeviceInfo,message : "Data updated and sent to clients"});
 });
