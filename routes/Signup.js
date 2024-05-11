@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createUserWithEmailAndPassword, sendEmailVerification, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { set , ref} from 'firebase/database'
-import { db, auth, refe } from '../database/firebase.js'
+import { db} from '../database/firebase.js'
 const router = Router();
 
 router.get('/signup',(req,res)=>{

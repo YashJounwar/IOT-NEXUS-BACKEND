@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { auth, refe, db } from "../database/firebase.js";
-import { get, set, update, onValue } from "firebase/database";
+import { get, update, onValue } from "firebase/database";
 import { io } from '../index.js';
-import { isWithinTimeRange } from '../formatting/timeRange.js';
 import { mmToInches, volumeOfWater, letersOfWater } from '../utilityFunctions/conversionFns.js'
-const inTimeRange = isWithinTimeRange();
 
 const router = Router();
 let userDeviceInfo = [];

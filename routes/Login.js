@@ -1,6 +1,6 @@
 import { Router } from "express";
-import {auth, refe, db} from "../database/firebase.js";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {auth} from "../database/firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
 const router = Router();
 
 router.post('/login', async (req, res) => {
