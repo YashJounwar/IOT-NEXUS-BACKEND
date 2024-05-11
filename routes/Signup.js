@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createUserWithEmailAndPassword, sendEmailVerification, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { set } from 'firebase/database'
+import { set , ref} from 'firebase/database'
 import { db, auth, refe } from '../database/firebase.js'
 const router = Router();
 
@@ -13,6 +13,7 @@ router.post('/signup', async (req, res) => {
   const { name, email, password, phoneNumber } = req.body;
 
   try {
+    const auth = getAuth(); // Get a new instance of Auth
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -24,12 +25,12 @@ router.post('/signup', async (req, res) => {
         const IntervalId = setInterval(() => {
           console.log(user.emailVerified);
           if (user.emailVerified) {
+            console.log(user.uid);
             // if the email is verified then add the record in the database
-            set(refe(db, `Hydrosense/Users/${user.uid}`), {
+            set(ref(db, `Hydrosense/Users/${user.uid}`), {
               uid: user.uid,
               username: name,
               email: email,
-              gender: gender,
               phoneNumber: phoneNumber,
               Dashboard: {
                 devicesInfo:"",      
@@ -37,13 +38,11 @@ router.post('/signup', async (req, res) => {
             })
               .then(() => {
                 // send response to the frontend when the user is successfully signed in 
-                auth.onAuthStateChanged((user)=>{
                   if(user.emailVerified){
                     return res.send({
                       uid: user.uid,
                       username: name,
                       email: email,
-                      gender: gender,
                       phoneNumber: phoneNumber,
                       signup:"true",
                       authToken: user.getIdTokenResult(),
@@ -51,7 +50,6 @@ router.post('/signup', async (req, res) => {
                       refreshToken:user.refreshToken
                     })
                   }
-                })
                 console.log(`${name} is signed up successfully`);
               })
               .catch((error) => {
@@ -70,7 +68,7 @@ router.post('/signup', async (req, res) => {
         const errorMessage = error.message;
         console.log("error message", errorMessage);
         if (error.code === 'auth/email-already-in-use') {
-         return res.status(400).send({message:"email Already exists try different email address"})
+         return res.status(400).send({message:"email Already exists try different email address", signup:"false"})
         } else {
           // Handle other errors
           return res.status(500).send({ error: 'Internal server error' });
